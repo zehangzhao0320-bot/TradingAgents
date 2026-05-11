@@ -35,4 +35,5 @@ jobs:
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
         run: |
-          tradingagents analyze ${{ github.event.inputs.ticker }} ${{ github.event.inputs.date }} --checkpoint
+          tradingagents --help
+          python -m cli.main --help || true

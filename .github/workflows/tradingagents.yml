@@ -1,0 +1,38 @@
+name: TradingAgents (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: "Ticker (e.g. NVDA)"
+        required: true
+        default: "NVDA"
+      date:
+        description: "Analysis date (YYYY-MM-DD)"
+        required: true
+        default: "2026-01-15"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: |
+          pip install -U pip
+          pip install .
+
+      - name: Run analysis
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+        run: |
+          tradingagents analyze ${{ github.event.inputs.ticker }} ${{ github.event.inputs.date }} --checkpoint

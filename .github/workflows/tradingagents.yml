@@ -29,11 +29,10 @@ jobs:
           pip install -U pip
           pip install .
 
-      - name: Run analysis
+            - name: Run (non-interactive)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
         run: |
-          tradingagents --help
-          python -m cli.main --help || true
+          python run_one.py
